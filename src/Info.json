@@ -1,0 +1,15 @@
+{
+  "name": "Delete Video",
+  "identifier": "fr.vahor.delete-video",
+  "description": "Delete current video",
+  "version": "1.0.0",
+  "author": {
+    "name": "Vahor",
+    "email": "me@vahor.fr",
+    "url": "https://vahor.fr"
+  },
+  "entry": "main.js",
+  "ghRepo": "Vahor/iina-delete-video",
+  "permissions": ["file-system"],
+  "minIINAVersion": "1.4.0"
+}

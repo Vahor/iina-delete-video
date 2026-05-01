@@ -1,0 +1,15 @@
+{
+  "lockfileVersion": 1,
+  "configVersion": 1,
+  "workspaces": {
+    "": {
+      "name": "iina-plugin",
+      "devDependencies": {
+        "iina-plugin-definition": "^0.99.3",
+      },
+    },
+  },
+  "packages": {
+    "iina-plugin-definition": ["iina-plugin-definition@0.99.3", "", {}, "sha512-nj14Uaz+UaJzZgFFftLmpPgTpfQaDq0sQJInbUmAMTdzY9NTe0gORwqDhKW83i+Czu17wxlt6qUYlLQuwyj7Kg=="],
+  }
+}

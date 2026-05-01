@@ -1,0 +1,12 @@
+{
+  "name": "iina-plugin",
+  "main": "src/index.js",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "link": "rm -rf ~/Library/Application\\ Support/com.colliderli.iina/plugins/delete-video.iinaplugin-dev && ln -s $(pwd)/src ~/Library/Application\\ Support/com.colliderli.iina/plugins/delete-video.iinaplugin-dev"
+  },
+  "devDependencies": {
+    "iina-plugin-definition": "^0.99.3"
+  }
+}
