@@ -1,7 +1,7 @@
 {
   "name": "Delete Video",
   "identifier": "fr.vahor.delete-video",
-  "description": "Delete current video",
+  "description": "Delete current video and show folder/filename overlay",
   "version": "1.0.0",
   "author": {
     "name": "Vahor",
@@ -10,6 +10,6 @@
   },
   "entry": "main.js",
   "ghRepo": "Vahor/iina-delete-video",
-  "permissions": ["file-system"],
+  "permissions": ["file-system", "show-alert", "video-overlay"],
   "minIINAVersion": "1.4.0"
 }
