@@ -13,12 +13,11 @@ Run `bun run link`, then restart IINA or reload its plugins. The plugin requires
 - Every local playback start creates a view session. When playback ends, its watched percentage is the furthest playback position reached divided by duration. Seeking forward therefore counts skipped sections as watched.
 - Each playback start schedules a non-blocking catalog of all local files in the active IINA playlist. Files added this way with no sessions are the unwatched videos.
 - `Cmd+Delete` moves the current local video to Trash.
-- Right-click any playlist entry and use `Sort Playlist` to sort the current playlist by likes or view count, in ascending or descending order. Untracked local files sort as zero; non-local entries stay in place.
-- The Plugin menu includes `Refresh Video Library Playlist Catalog` and `Show Video Library Database in Finder`.
+- The Plugin menu includes `Refresh Video Library Playlist Catalog`.
 
 ## Database
 
-The database is `video-library.sqlite3` in IINA's data directory for this plugin. Use `Show Video Library Database in Finder` to open its location, then inspect it with any SQLite browser or the command line:
+The database is `video-library.sqlite3` in IINA's data directory for this plugin. Inspect it with any SQLite browser or the command line:
 
 ```sh
 sqlite3 "/path/revealed-in-Finder/video-library.sqlite3"
