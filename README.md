@@ -10,7 +10,7 @@ Run `bun run link`, then restart IINA or reload its plugins. The plugin requires
 
 - The overlay shows the current `folder/filename`, view count, average watched percentage, and like count.
 - Press `L` to increment the video's like count.
-- Every local playback start creates a view session. When playback ends, its watched percentage is the furthest playback position reached divided by duration. Seeking forward therefore counts skipped sections as watched.
+- Every local playback start creates a playback session. A session counts as a view only when at least 30% is watched. Its watched percentage is the furthest playback position reached divided by duration. Seeking forward therefore counts skipped sections as watched.
 - Each playback start schedules a non-blocking catalog of all local files in the active IINA playlist. Files added this way with no sessions are the unwatched videos.
 - `Cmd+Delete` moves the current local video to Trash.
 - Press `Y` to reveal the current local video in Finder.
@@ -45,7 +45,8 @@ WHERE like_count > 0
 ORDER BY like_count DESC, updated_at DESC;
 
 -- Per-video viewing summary.
-SELECT v.path, v.like_count, COUNT(w.id) AS view_count,
+SELECT v.path, v.like_count,
+       COUNT(CASE WHEN w.watched_percent >= 30 THEN 1 END) AS view_count,
        ROUND(AVG(w.watched_percent), 1) AS average_watched_percent
 FROM videos v
 LEFT JOIN views w ON w.video_path = v.path

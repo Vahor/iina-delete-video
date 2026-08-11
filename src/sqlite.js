@@ -100,7 +100,9 @@ function createVideoLibrary({ core, utils, playlist, mpv, pathFromSource, titleF
 
   async function loadStats(path) {
     if (!path) return;
-    const output = await enqueue(`SELECT v.like_count, COUNT(views.id), COALESCE(ROUND(AVG(views.watched_percent)), '')
+    const output = await enqueue(`SELECT v.like_count,
+      COUNT(CASE WHEN views.watched_percent >= 30 THEN 1 END),
+      COALESCE(ROUND(AVG(views.watched_percent)), '')
       FROM videos v LEFT JOIN views ON views.video_path = v.path
       WHERE v.path = ${sqlString(path)} GROUP BY v.path;`);
     if (output === null) return;
