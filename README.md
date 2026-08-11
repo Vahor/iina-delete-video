@@ -14,7 +14,7 @@ Run `bun run link`, then restart IINA or reload its plugins. The plugin requires
 - Each playback start schedules a non-blocking catalog of all local files in the active IINA playlist. Files added this way with no sessions are the unwatched videos.
 - `Cmd+Delete` moves the current local video to Trash.
 - Press `Y` to reveal the current local video in Finder.
-- The Plugin menu includes `Refresh Video Library Playlist Catalog`.
+- The Plugin menu includes `Refresh Video Library Playlist Catalog` and `Show Video Library Database in Finder`.
 
 ## Database
 

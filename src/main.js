@@ -7,7 +7,7 @@ const { pathFromSource, safeGetMpvString, titleFromPath } = createPathUtils({ mp
 
 const titleOverlay = createTitleOverlay({ core, overlay, mpv, pathFromSource, titleFromPath, pluginConsole: iina.console });
 const library = createVideoLibrary({
-  core, utils, playlist, mpv, pathFromSource, titleFromPath, pluginConsole: iina.console,
+  core, utils, file, playlist, mpv, pathFromSource, titleFromPath, pluginConsole: iina.console,
   onStats: (path, stats) => titleOverlay.setStats(path, stats),
 });
 
@@ -53,6 +53,7 @@ scheduleOverlayUpdate();
 menu.addItem(menu.item("Refresh Folder/Filename Overlay", () => { titleOverlay.reset(); updateOverlay(); }));
 menu.addItem(menu.item("Move Current Video to Trash", deleteCurrentVideo, { keyBinding: "Meta+BS" }));
 menu.addItem(menu.item("Show Current Video in Finder", revealCurrentVideo, { keyBinding: "y" }));
+menu.addItem(menu.item("Show Video Library Database in Finder", () => library.revealDatabase()));
 menu.addItem(menu.item("Refresh Video Library Playlist Catalog", () => {
   setTimeout(() => library.catalogPlaylist(), 0);
   core.osd("Playlist catalog refresh scheduled");

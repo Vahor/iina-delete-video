@@ -1,4 +1,4 @@
-function createVideoLibrary({ core, utils, playlist, mpv, pathFromSource, titleFromPath, onStats, pluginConsole }) {
+function createVideoLibrary({ core, utils, file, playlist, mpv, pathFromSource, titleFromPath, onStats, pluginConsole }) {
   let activeView = null;
   let databaseReady = false;
   let databaseDisabled = false;
@@ -155,7 +155,13 @@ function createVideoLibrary({ core, utils, playlist, mpv, pathFromSource, titleF
       WHERE path = ${sqlString(path)};`).then(() => loadStats(path));
   }
 
-  return { addLike, catalogPlaylist, finishView, loadStats, startView, trackProgress };
+  function revealDatabase() {
+    enqueue("SELECT 1;").then(() => {
+      if (!databaseDisabled) file.showInFinder(databasePath);
+    });
+  }
+
+  return { addLike, catalogPlaylist, finishView, loadStats, revealDatabase, startView, trackProgress };
 }
 
 module.exports = { createVideoLibrary };
