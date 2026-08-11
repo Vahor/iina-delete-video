@@ -1,30 +1,9 @@
 const { core, event, input, menu, utils, file, playlist, mpv, overlay } = iina;
 const { createTitleOverlay } = require("./overlay.js");
+const { createPathUtils } = require("./path-utils.js");
 const { createVideoLibrary } = require("./sqlite.js");
 
-function safeGetMpvString(name) {
-  try { return mpv.getString(name) || null; } catch (error) {
-    iina.console.log(`Failed to read mpv property ${name}: ${error}`);
-    return null;
-  }
-}
-
-function pathFromSource(source) {
-  if (!source) return null;
-  let path = source;
-  if (source.startsWith("file://")) {
-    path = source.replace(/^file:\/\/(localhost)?/, "");
-    try { path = decodeURIComponent(path); } catch (error) { iina.console.log(`Failed to decode file URL: ${error}`); }
-  } else if (/^[A-Za-z][A-Za-z0-9+.-]*:\/\//.test(source)) return null;
-  if (path.startsWith("/")) return path;
-  const directory = safeGetMpvString("working-directory");
-  return directory ? `${directory}/${path}` : path;
-}
-
-function titleFromPath(path) {
-  const parts = path.split("/").filter(Boolean);
-  return parts.length < 2 ? parts[0] || path : `${parts[parts.length - 2]}/${parts[parts.length - 1]}`;
-}
+const { pathFromSource, safeGetMpvString, titleFromPath } = createPathUtils({ mpv, pluginConsole: iina.console });
 
 const titleOverlay = createTitleOverlay({ core, overlay, mpv, pathFromSource, titleFromPath, pluginConsole: iina.console });
 const library = createVideoLibrary({
