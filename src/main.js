@@ -54,6 +54,7 @@ menu.addItem(menu.item("Refresh Folder/Filename Overlay", () => { titleOverlay.r
 menu.addItem(menu.item("Move Current Video to Trash", deleteCurrentVideo, { keyBinding: "Meta+BS" }));
 menu.addItem(menu.item("Show Current Video in Finder", revealCurrentVideo, { keyBinding: "y" }));
 menu.addItem(menu.item("Show Video Library Database in Finder", () => library.revealDatabase()));
+menu.addItem(menu.item("Play Least Watched Videos", () => library.playLeastWatched()));
 menu.addItem(menu.item("Refresh Video Library Playlist Catalog", () => {
   setTimeout(() => library.catalogPlaylist(), 0);
   core.osd("Playlist catalog refresh scheduled");

@@ -14,6 +14,7 @@ Run `bun run link`, then restart IINA or reload its plugins. The plugin requires
 - Each playback start schedules a non-blocking catalog of all local files in the active IINA playlist. Files added this way with no sessions are the unwatched videos.
 - `Cmd+Delete` moves the current local video to Trash.
 - Press `Y` to reveal the current local video in Finder.
+- Use `Plugins` -> `Play Least Watched Videos` to replace the current playlist with cataloged videos ordered by qualified view count.
 - The Plugin menu includes `Refresh Video Library Playlist Catalog` and `Show Video Library Database in Finder`.
 
 ## Database
@@ -26,8 +27,8 @@ sqlite3 "/path/revealed-in-Finder/video-library.sqlite3"
 
 Tables:
 
-- `videos`: one row per cataloged local path, including its `like_count`.
-- `views`: one row per playback session, with timestamps, duration, final position, and `watched_percent`.
+- `videos`: one row per cataloged local file, keyed by its size and modification time, including its `like_count`.
+- `views`: one row per playback session, linked to the same file identity, with timestamps, duration, final position, and `watched_percent`.
 
 Useful queries:
 
@@ -35,7 +36,7 @@ Useful queries:
 -- Playlist videos that have never been played.
 SELECT path, title
 FROM videos
-WHERE NOT EXISTS (SELECT 1 FROM views WHERE views.video_path = videos.path)
+WHERE NOT EXISTS (SELECT 1 FROM views WHERE views.video_identity = videos.file_identity)
 ORDER BY path;
 
 -- Videos you liked most.
@@ -44,12 +45,20 @@ FROM videos
 WHERE like_count > 0
 ORDER BY like_count DESC, updated_at DESC;
 
+-- Videos watched least often, for manual review or cleanup.
+SELECT v.path, v.title, v.like_count,
+       COUNT(CASE WHEN w.watched_percent >= 30 THEN 1 END) AS view_count
+FROM videos v
+LEFT JOIN views w ON w.video_identity = v.file_identity
+GROUP BY v.file_identity
+ORDER BY view_count ASC, v.like_count ASC, v.path;
+
 -- Per-video viewing summary.
 SELECT v.path, v.like_count,
        COUNT(CASE WHEN w.watched_percent >= 30 THEN 1 END) AS view_count,
        ROUND(AVG(w.watched_percent), 1) AS average_watched_percent
 FROM videos v
-LEFT JOIN views w ON w.video_path = v.path
-GROUP BY v.path
+LEFT JOIN views w ON w.video_identity = v.file_identity
+GROUP BY v.file_identity
 ORDER BY view_count, v.path;
 ```
