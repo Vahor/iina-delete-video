@@ -13,6 +13,7 @@ Run `bun run link`, then restart IINA or reload its plugins. The plugin requires
 - Every local playback start creates a view session. When playback ends, its watched percentage is the furthest playback position reached divided by duration. Seeking forward therefore counts skipped sections as watched.
 - Each playback start schedules a non-blocking catalog of all local files in the active IINA playlist. Files added this way with no sessions are the unwatched videos.
 - `Cmd+Delete` moves the current local video to Trash.
+- Press `Y` to reveal the current local video in Finder.
 - The Plugin menu includes `Refresh Video Library Playlist Catalog`.
 
 ## Database

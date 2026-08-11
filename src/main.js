@@ -27,6 +27,13 @@ function deleteCurrentVideo() {
   try { playlist.playNext(); file.trash(path); } catch (error) { utils.ask(`Failed to delete file:\n${error}`); }
 }
 
+function revealCurrentVideo() {
+  const path = titleOverlay.getPath() || pathFromSource(core.status.url);
+  if (!path) return utils.ask("No local file is currently playing.");
+
+  file.showInFinder(path);
+}
+
 mpv.addHook("on_load", 50, () => updateOverlay(safeGetMpvString("stream-open-filename"), false));
 event.on("iina.window-loaded", () => { titleOverlay.reset(); scheduleOverlayUpdate(); });
 event.on("iina.plugin-overlay-loaded", () => scheduleOverlayUpdate());
@@ -45,6 +52,7 @@ event.on("mpv.end-file", () => {
 scheduleOverlayUpdate();
 menu.addItem(menu.item("Refresh Folder/Filename Overlay", () => { titleOverlay.reset(); updateOverlay(); }));
 menu.addItem(menu.item("Move Current Video to Trash", deleteCurrentVideo, { keyBinding: "Meta+BS" }));
+menu.addItem(menu.item("Show Current Video in Finder", revealCurrentVideo, { keyBinding: "y" }));
 menu.addItem(menu.item("Refresh Video Library Playlist Catalog", () => {
   setTimeout(() => library.catalogPlaylist(), 0);
   core.osd("Playlist catalog refresh scheduled");
